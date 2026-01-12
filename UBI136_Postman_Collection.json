@@ -1,0 +1,455 @@
+{
+  "info": {
+    "name": "UBI.136 Protection System",
+    "description": "Полная коллекция API для тестирования системы защиты от угрозы UBI.136",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Consensus Service (Главный)",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8001/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8001",
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Cluster Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8001/cluster/status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8001",
+              "path": ["cluster", "status"]
+            }
+          }
+        },
+        {
+          "name": "Safe Write (Protected)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collection\": \"test_data\",\n  \"document\": {\n    \"message\": \"Protected write test\",\n    \"timestamp\": \"2024-01-01T12:00:00Z\",\n    \"test_id\": 1\n  },\n  \"write_concern\": \"majority\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8001/write/safe",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8001",
+              "path": ["write", "safe"]
+            }
+          }
+        },
+        {
+          "name": "Unsafe Write (Demonstration)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collection\": \"unprotected_data\",\n  \"document\": {\n    \"message\": \"Unprotected write - RISKY!\",\n    \"warning\": \"This can be lost\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8001/write/unsafe",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8001",
+              "path": ["write", "unsafe"]
+            }
+          }
+        },
+        {
+          "name": "Safe Read",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8001/read/safe?collection=test_data&filter={}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8001",
+              "path": ["read", "safe"],
+              "query": [
+                {
+                  "key": "collection",
+                  "value": "test_data"
+                },
+                {
+                  "key": "filter",
+                  "value": "{}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Validate Operation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collection\": \"test\",\n  \"document\": {\"test\": \"validation\"},\n  \"write_concern\": \"majority\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8001/validate/operation",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8001",
+              "path": ["validate", "operation"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Replication Monitoring",
+      "item": [
+        {
+          "name": "Replication Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8002/replication/status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8002",
+              "path": ["replication", "status"]
+            }
+          }
+        },
+        {
+          "name": "Oplog Lag Analysis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8002/replication/lag",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8002",
+              "path": ["replication", "lag"]
+            }
+          }
+        },
+        {
+          "name": "Oplog Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8002/replication/oplog/info",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8002",
+              "path": ["replication", "oplog", "info"]
+            }
+          }
+        },
+        {
+          "name": "Monitoring Alerts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8002/monitoring/alerts",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8002",
+              "path": ["monitoring", "alerts"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Health Check",
+      "item": [
+        {
+          "name": "All Nodes Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8003/health/all",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8003",
+              "path": ["health", "all"]
+            }
+          }
+        },
+        {
+          "name": "Primary Node Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8003/health/primary",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8003",
+              "path": ["health", "primary"]
+            }
+          }
+        },
+        {
+          "name": "Secondary Nodes Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8003/health/secondaries",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8003",
+              "path": ["health", "secondaries"]
+            }
+          }
+        },
+        {
+          "name": "Network Connectivity",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8003/health/network",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8003",
+              "path": ["health", "network"]
+            }
+          }
+        },
+        {
+          "name": "Health Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8003/health/summary",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8003",
+              "path": ["health", "summary"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Transaction Log",
+      "item": [
+        {
+          "name": "Recent Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8004/logs/recent?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8004",
+              "path": ["logs", "recent"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Logs by Collection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8004/logs/by-collection?collection=test_data&limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8004",
+              "path": ["logs", "by-collection"],
+              "query": [
+                {
+                  "key": "collection",
+                  "value": "test_data"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Log Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8004/logs/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8004",
+              "path": ["logs", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Audit Timeline",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8004/audit/timeline?hours=24",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8004",
+              "path": ["audit", "timeline"],
+              "query": [
+                {
+                  "key": "hours",
+                  "value": "24"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Failed Operations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8004/audit/failed-operations?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8004",
+              "path": ["audit", "failed-operations"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Oplog Tail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8004/oplog/tail?limit=5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8004",
+              "path": ["oplog", "tail"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Recovery Service",
+      "item": [
+        {
+          "name": "Recovery Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8005/recovery/status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8005",
+              "path": ["recovery", "status"]
+            }
+          }
+        },
+        {
+          "name": "Sync Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8005/recovery/sync-status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8005",
+              "path": ["recovery", "sync-status"]
+            }
+          }
+        },
+        {
+          "name": "Auto Heal",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8005/recovery/auto-heal",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8005",
+              "path": ["recovery", "auto-heal"]
+            }
+          }
+        },
+        {
+          "name": "Recovery Recommendations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8005/recovery/recommendations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8005",
+              "path": ["recovery", "recommendations"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

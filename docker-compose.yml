@@ -1,0 +1,177 @@
+version: '3.8'
+
+services:
+  # MongoDB Replica Set - 3 узла
+  mongo-primary:
+    image: mongo:5.0
+    container_name: mongo-primary
+    command: mongod --replSet rs0 --bind_ip_all --port 27017
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-network
+    volumes:
+      - mongo-primary-data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo-secondary1:
+    image: mongo:5.0
+    container_name: mongo-secondary1
+    command: mongod --replSet rs0 --bind_ip_all --port 27017
+    ports:
+      - "27018:27017"
+    networks:
+      - mongo-network
+    volumes:
+      - mongo-secondary1-data:/data/db
+    depends_on:
+      - mongo-primary
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo-secondary2:
+    image: mongo:5.0
+    container_name: mongo-secondary2
+    command: mongod --replSet rs0 --bind_ip_all --port 27017
+    ports:
+      - "27019:27017"
+    networks:
+      - mongo-network
+    volumes:
+      - mongo-secondary2-data:/data/db
+    depends_on:
+      - mongo-primary
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Инициализация Replica Set
+  mongo-init:
+    image: mongo:5.0
+    container_name: mongo-init
+    networks:
+      - mongo-network
+    depends_on:
+      - mongo-primary
+      - mongo-secondary1
+      - mongo-secondary2
+    command: >
+      bash -c "
+        sleep 10 &&
+        mongo --host mongo-primary:27017 --eval '
+          rs.initiate({
+            _id: \"rs0\",
+            members: [
+              { _id: 0, host: \"mongo-primary:27017\", priority: 2 },
+              { _id: 1, host: \"mongo-secondary1:27017\", priority: 1 },
+              { _id: 2, host: \"mongo-secondary2:27017\", priority: 1 }
+            ]
+          })
+        ' &&
+        echo 'Replica Set initialized successfully'
+      "
+    restart: "no"
+
+  # Микросервис 1: Consensus Service (ГЛАВНЫЙ)
+  consensus-service:
+    build: ./consensus_service
+    container_name: consensus-service
+    ports:
+      - "8001:8001"
+    networks:
+      - mongo-network
+    depends_on:
+      - mongo-init
+    environment:
+      - MONGO_URI=mongodb://mongo-primary:27017,mongo-secondary1:27017,mongo-secondary2:27017/?replicaSet=rs0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  # Микросервис 2: Replication Monitoring
+  replication-monitoring:
+    build: ./replication_monitoring
+    container_name: replication-monitoring
+    ports:
+      - "8002:8002"
+    networks:
+      - mongo-network
+    depends_on:
+      - mongo-init
+    environment:
+      - MONGO_URI=mongodb://mongo-primary:27017,mongo-secondary1:27017,mongo-secondary2:27017/?replicaSet=rs0
+    restart: unless-stopped
+
+  # Микросервис 3: Health Check
+  health-check:
+    build: ./health_check
+    container_name: health-check
+    ports:
+      - "8003:8003"
+    networks:
+      - mongo-network
+    depends_on:
+      - mongo-init
+    environment:
+      - MONGO_URI=mongodb://mongo-primary:27017,mongo-secondary1:27017,mongo-secondary2:27017/?replicaSet=rs0
+    restart: unless-stopped
+
+  # Микросервис 4: Transaction Log
+  transaction-log:
+    build: ./transaction_log
+    container_name: transaction-log
+    ports:
+      - "8004:8004"
+    networks:
+      - mongo-network
+    depends_on:
+      - mongo-init
+    environment:
+      - MONGO_URI=mongodb://mongo-primary:27017,mongo-secondary1:27017,mongo-secondary2:27017/?replicaSet=rs0
+    restart: unless-stopped
+
+  # Микросервис 5: Recovery Service
+  recovery-service:
+    build: ./recovery_service
+    container_name: recovery-service
+    ports:
+      - "8005:8005"
+    networks:
+      - mongo-network
+    depends_on:
+      - mongo-init
+    environment:
+      - MONGO_URI=mongodb://mongo-primary:27017,mongo-secondary1:27017,mongo-secondary2:27017/?replicaSet=rs0
+    restart: unless-stopped
+
+  # Dashboard React
+  ubi136-dashboard:
+    build: ./dashboard
+    container_name: ubi136-dashboard
+    ports:
+      - "3000:3000"
+    networks:
+      - mongo-network
+    environment:
+      - REACT_APP_API_BASE=http://localhost
+    depends_on:
+      - consensus-service
+    restart: unless-stopped
+
+networks:
+  mongo-network:
+    driver: bridge
+
+volumes:
+  mongo-primary-data:
+  mongo-secondary1-data:
+  mongo-secondary2-data:
