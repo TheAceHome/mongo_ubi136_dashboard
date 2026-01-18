@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчет по разработке и интеграции</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #4CAF50;
+        }
+        
+        .header h1 {
+            color: #2E7D32;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            color: #666;
+            margin: 8px 0;
+        }
+        
+        .student-info {
+            background: #E8F5E9;
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .student-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        h2 {
+            color: #2E7D32;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E8F5E9;
+        }
+        
+        h3 {
+            color: #424242;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 15px;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        table th {
+            background: #2E7D32;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        table tr:hover {
+            background: #f0f0f0;
+        }
+        
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.5;
+        }
+        
+        .diagram {
+            background: white;
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            overflow-x: auto;
+            font-size: 11px;
+            white-space: pre;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .uml-diagram {
+            background: #f0f8f0;
+            border: 2px dashed #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            overflow-x: auto;
+            font-size: 11px;
+            white-space: pre;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .component-box {
+            background: #E8F5E9;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .component-box h4 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background: #FFF3E0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        
+        .info-box {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .api-endpoint {
+            background: #f5f5f5;
+            border-left: 4px solid #FF9800;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        
+        .tech-stack {
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .tech-item {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 13px;
+        }
+        
+        .list-item {
+            margin-left: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .print-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .print-button button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .print-button button:hover {
+            background: #2E7D32;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="print-button">
+            <button onclick="window.print()">📄 Сохранить как PDF</button>
+        </div>
+        
+        <div class="header">
+            <h1>🏗️ Отчет по разработке и интеграции системы</h1>
+            <p><strong>UBI.136 Protection System</strong></p>
+            <p>Архитектура, дизайн и реализация системы защиты от потери данных</p>
+        </div>
+        
+        <div class="student-info">
+            <p><strong>Студент:</strong> Проказнов Никита Михайлович</p>
+            <p><strong>Группа:</strong> DevOps24-1м</p>
+            <p><strong>Дата:</strong> Январь 2024</p>
+            <p><strong>Предмет:</strong> Разработка и интеграция приложений</p>
+        </div>
+        
+        <h2>1. Описание проекта</h2>
+        
+        <h3>1.1 Цель проекта</h3>
+        <p>
+            Разработка полнофункциональной системы защиты от угрозы <span class="highlight">UBI.136</span> - 
+            потеря информации вследствие несогласованной работы узлов хранилища больших данных. 
+            Система должна обеспечивать:
+        </p>
+        <ul class="list-item">
+            <li>Гарантированную согласованность данных между узлами</li>
+            <li>Автоматический мониторинг состояния кластера</li>
+            <li>Обнаружение и предотвращение потери данных</li>
+            <li>Автоматическое восстановление при сбоях</li>
+            <li>Полный аудит всех операций</li>
+        </ul>
+        
+        <h3>1.2 Ключевые особенности</h3>
+        <div class="info-box">
+            <ul class="list-item">
+                <li>✅ <strong>MongoDB Replica Set:</strong> 3 узла для высокой доступности</li>
+                <li>✅ <strong>5 микросервисов:</strong> Специализированные компоненты для разных функций</li>
+                <li>✅ <strong>~35 API endpoints:</strong> Полный контроль над системой</li>
+                <li>✅ <strong>Raft Consensus:</strong> Алгоритм для выбора Primary узла</li>
+                <li>✅ <strong>WriteConcern:majority:</strong> Гарантированная запись на большинство узлов</li>
+                <li>✅ <strong>Полное логирование:</strong> Аудит всех операций</li>
+            </ul>
+        </div>
+        
+        <h2>2. Архитектура системы</h2>
+        
+        <h3>2.1 Общая архитектура - Слои системы</h3>
+        <div class="diagram">
+┌─────────────────────────────────────────┐
+│     CLIENT APPLICATIONS                 │
+└──────────────┬──────────────────────────┘
+               │
+┌──────────────▼──────────────────────────┐
+│  CONSENSUS SERVICE (8001)                │
+│  • WriteConcern Management               │
+│  • Operation Validation                  │
+│  • Safety Coordination                   │
+└──────────────┬──────────────────────────┘
+               │
+┌──────────────▼──────────────────────────┐
+│  MONGODB REPLICA SET (3 NODES)           │
+│  Primary :27017                          │
+│  Secondary1 :27018 ↔ Replication        │
+│  Secondary2 :27019 ↔ Oplog              │
+└──────────────┬──────────────────────────┘
+               │
+    ┌──────────┼──────────┐
+    │          │          │
+    ▼          ▼          ▼
+┌─────────┬─────────┬──────────┐
+│Replicat │ Health  │Transactio│
+│  Mon    │ Check   │   Log    │
+└────┬────┴────┬────┴─────┬────┘
+     │         │          │
+     └─────────┼──────────┘
+               │
+               ▼
+        ┌─────────────────┐
+        │ Recovery Service│
+        │     (8005)      │
+        └─────────────────┘
+        </div>
+        
+        <h3>2.2 Таблица слоев архитектуры</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Слой</th>
+                        <th>Компоненты</th>
+                        <th>Функции</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Слой хранения</strong></td>
+                        <td>MongoDB Replica Set (3 узла)</td>
+                        <td>Персистентное хранилище с репликацией</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Слой согласованности</strong></td>
+                        <td>Consensus Service</td>
+                        <td>Управление WriteConcern и ReadConcern</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Слой мониторинга</strong></td>
+                        <td>Replication Monitoring, Health Check</td>
+                        <td>Отслеживание состояния и проблем</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Слой восстановления</strong></td>
+                        <td>Recovery Service</td>
+                        <td>Автоматическое восстановление узлов</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Слой аудита</strong></td>
+                        <td>Transaction Log Service</td>
+                        <td>Логирование всех операций</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h2>3. UML диаграммы</h2>
+        
+        <h3>3.1 Диаграмма компонентов системы</h3>
+        <div class="uml-diagram">CONSENSUS SERVICE
+├─ write_safe()
+├─ write_unsafe() 
+├─ read_safe()
+├─ validate_operation()
+└─ get_cluster_status()
+        ↓↑
+  MONGODB REPLICA SET
+  ├─ mongo-primary:27017
+  ├─ mongo-secondary1:27018
+  ├─ mongo-secondary2:27019
+  └─ Replication via Oplog
+        ↓
+  ┌──────────┬──────────┬──────────┐
+  │          │          │          │
+  ▼          ▼          ▼          ▼
+REPLICATION  HEALTH   TRANSACTION RECOVERY
+MONITORING   CHECK    LOG         SERVICE
+├─ lag()     ├─nodes()├─log()     ├─status()
+├─oplog()    ├─primary│├─stats()  ├─heal()
+└─alerts()   └─network└─timeline()└─resync()
+        </div>
+        
+        <h3>3.2 Диаграмма развертывания (Deployment)</h3>
+        <div class="diagram">
+┌──────────────────────────────────────┐
+│         HOST MACHINE                 │
+├──────────────────────────────────────┤
+│                                      │
+│  ┌────────────────────────────────┐ │
+│  │   DOCKER DAEMON                │ │
+│  │                                │ │
+│  │  mongo-primary:27017           │ │
+│  │  mongo-secondary1:27018        │ │
+│  │  mongo-secondary2:27019        │ │
+│  │                                │ │
+│  │  ─── DOCKER NETWORK: mongo ─── │ │
+│  │                                │ │
+│  │  MongoDB Replica Set rs0       │ │
+│  │                                │ │
+│  │  consensus (8001) ↔ MongoDB    │ │
+│  │  monitoring (8002) ↔ MongoDB   │ │
+│  │  health (8003) ↔ MongoDB       │ │
+│  │  logs (8004) ↔ MongoDB         │ │
+│  │  recovery (8005) ↔ MongoDB     │ │
+│  │                                │ │
+│  │  VOLUMES:                      │ │
+│  │  • mongo-primary-data          │ │
+│  │  • mongo-secondary1-data       │ │
+│  │  • mongo-secondary2-data       │ │
+│  │                                │ │
+│  └────────────────────────────────┘ │
+│                                      │
+│  localhost:27017-27019  ← MongoDB    │
+│  localhost:8001-8005    ← Services   │
+│                                      │
+└──────────────────────────────────────┘
+        </div>
+        
+        <h3>3.3 Последовательность безопасной записи</h3>
+        <div class="diagram">
+CLIENT → CONSENSUS → MONGODB → SECONDARY → RETURN
+
+1. POST /write/safe
+2. Validate (Primary? Quorum?)
+3. INSERT with writeConcern:majority
+4. Primary records data
+5. Secondary1 replicates via Oplog
+6. Secondary2 replicates via Oplog
+7. MongoDB confirms (2/3 nodes)
+8. Log to Transaction Log Service
+9. Monitor via Replication Service
+10. Success response ✓
+        </div>
+        
+        <h2>4. Микросервисная архитектура</h2>
+        
+        <h3>4.1 Consensus Service 🛡️</h3>
+        <div class="component-box">
+            <h4>Главный защитный сервис (порт 8001)</h4>
+            <p><strong>Язык:</strong> Python 3.11 + FastAPI</p>
+            <p><strong>Функции:</strong></p>
+            <ul class="list-item">
+                <li>Управление WriteConcern:majority для безопасных записей</li>
+                <li>Валидация операций перед выполнением</li>
+                <li>Проверка доступности Primary узла</li>
+                <li>Проверка кворума узлов (минимум 2 из 3)</li>
+                <li>Безопасное чтение с ReadConcern:majority</li>
+            </ul>
+            <p><strong>Ключевые endpoints:</strong></p>
+            <div class="api-endpoint">POST /write/safe - Безопасная запись</div>
+            <div class="api-endpoint">GET /read/safe - Безопасное чтение</div>
+            <div class="api-endpoint">POST /validate/operation - Валидация</div>
+        </div>
+        
+        <h3>4.2 Replication Monitoring Service 🔄</h3>
+        <div class="component-box">
+            <h4>Мониторинг репликации (порт 8002)</h4>
+            <p><strong>Функции:</strong></p>
+            <ul class="list-item">
+                <li>Анализ задержки репликации (oplog lag)</li>
+                <li>Классификация: EXCELLENT/GOOD/WARNING/CRITICAL</li>
+                <li>Генерация алертов о проблемах</li>
+                <li>Детекция Split-Brain ситуаций</li>
+            </ul>
+            <p><strong>Ключевые endpoints:</strong></p>
+            <div class="api-endpoint">GET /replication/lag - Анализ lag</div>
+            <div class="api-endpoint">GET /monitoring/alerts - Алерты</div>
+        </div>
+        
+        <h3>4.3 Health Check Service 🏥</h3>
+        <div class="component-box">
+            <h4>Проверка здоровья узлов (порт 8003)</h4>
+            <p><strong>Функции:</strong></p>
+            <ul class="list-item">
+                <li>Проверка доступности всех узлов</li>
+                <li>Определение статуса узла (PRIMARY/SECONDARY)</li>
+                <li>Детекция Split-Brain</li>
+                <li>Проверка сетевой связности</li>
+            </ul>
+        </div>
+        
+        <h3>4.4 Transaction Log Service 📝</h3>
+        <div class="component-box">
+            <h4>Логирование транзакций (порт 8004)</h4>
+            <p><strong>Функции:</strong></p>
+            <ul class="list-item">
+                <li>Логирование всех операций записи</li>
+                <li>Сохранение состояния кластера</li>
+                <li>Анализ статистики операций</li>
+                <li>Отслеживание неудачных операций</li>
+            </ul>
+        </div>
+        
+        <h3>4.5 Recovery Service 🔧</h3>
+        <div class="component-box">
+            <h4>Восстановление узлов (порт 8005)</h4>
+            <p><strong>Функции:</strong></p>
+            <ul class="list-item">
+                <li>Обнаружение узлов, требующих восстановления</li>
+                <li>Автоматическая ресинхронизация Secondary</li>
+                <li>Обработка rollback ситуаций</li>
+                <li>Генерация рекомендаций</li>
+            </ul>
+        </div>
+        
+        <h2>5. Интеграция компонентов</h2>
+        
+        <h3>5.1 Синхронная интеграция</h3>
+        <div class="code-block">
+Consensus Service ↔ MongoDB (прямое подключение)
+Consensus Service ↔ Monitoring (получение статуса)
+Recovery Service ↔ MongoDB (управление узлами)
+Health Check ↔ MongoDB (мониторинг)
+Transaction Log ↔ MongoDB (хранение логов)
+        </div>
+        
+        <h3>5.2 Общие базы данных</h3>
+        <div class="code-block">
+Database: protected_db
+├── protected_data (защищенные данные)
+├── unprotected_data (небезопасные - для демонстрации)
+└── transaction_logs (логи операций)
+
+Special (local):
+└── oplog.rs (журнал операций для репликации)
+        </div>
+        
+        <h2>6. API Endpoints</h2>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Сервис</th>
+                        <th>Метод</th>
+                        <th>Endpoint</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Consensus</td>
+                        <td>GET</td>
+                        <td>/health</td>
+                        <td>Проверка здоровья</td>
+                    </tr>
+                    <tr>
+                        <td>Consensus</td>
+                        <td>POST</td>
+                        <td>/write/safe</td>
+                        <td>Безопасная запись</td>
+                    </tr>
+                    <tr>
+                        <td>Replication</td>
+                        <td>GET</td>
+                        <td>/replication/lag</td>
+                        <td>Анализ oplog lag</td>
+                    </tr>
+                    <tr>
+                        <td>Replication</td>
+                        <td>GET</td>
+                        <td>/monitoring/alerts</td>
+                        <td>Активные алерты</td>
+                    </tr>
+                    <tr>
+                        <td>Health</td>
+                        <td>GET</td>
+                        <td>/health/all</td>
+                        <td>Здоровье всех узлов</td>
+                    </tr>
+                    <tr>
+                        <td>Health</td>
+                        <td>GET</td>
+                        <td>/health/summary</td>
+                        <td>Общая сводка</td>
+                    </tr>
+                    <tr>
+                        <td>Logs</td>
+                        <td>GET</td>
+                        <td>/logs/recent</td>
+                        <td>Последние логи</td>
+                    </tr>
+                    <tr>
+                        <td>Logs</td>
+                        <td>GET</td>
+                        <td>/logs/stats</td>
+                        <td>Статистика</td>
+                    </tr>
+                    <tr>
+                        <td>Recovery</td>
+                        <td>GET</td>
+                        <td>/recovery/status</td>
+                        <td>Статус восстановления</td>
+                    </tr>
+                    <tr>
+                        <td>Recovery</td>
+                        <td>POST</td>
+                        <td>/recovery/auto-heal</td>
+                        <td>Автовосстановление</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h2>7. Технологический стек</h2>
+        
+        <h3>7.1 Backend технологии</h3>
+        <div class="tech-stack">
+            <div class="tech-item">Python 3.11</div>
+            <div class="tech-item">FastAPI 0.104.1</div>
+            <div class="tech-item">Uvicorn 0.24.0</div>
+            <div class="tech-item">PyMongo 4.6.0</div>
+            <div class="tech-item">Pydantic 2.5.0</div>
+        </div>
+        
+        <h3>7.2 Database технологии</h3>
+        <div class="tech-stack">
+            <div class="tech-item">MongoDB 5.0</div>
+            <div class="tech-item">Replica Set</div>
+            <div class="tech-item">Raft Consensus</div>
+            <div class="tech-item">Oplog</div>
+        </div>
+        
+        <h3>7.3 DevOps технологии</h3>
+        <div class="tech-stack">
+            <div class="tech-item">Docker</div>
+            <div class="tech-item">Docker Compose</div>
+            <div class="tech-item">Docker Network</div>
+            <div class="tech-item">Docker Volumes</div>
+        </div>
+        
+        <h2>8. Механизмы защиты от UBI.136</h2>
+        
+        <h3>8.1 WriteConcern: majority</h3>
+        <div class="code-block">
+Требует подтверждения от большинства узлов (2 из 3):
+
+collection.with_options(
+    write_concern=WriteConcern(w="majority", wtimeout=5000)
+).insert_one(document)
+
+Преимущество: 
+✓ Предотвращает потерю данных при отказе Primary
+        </div>
+        
+        <h3>8.2 ReadConcern: majority</h3>
+        <div class="code-block">
+Чтение только данных, признанных большинством:
+
+collection.with_options(
+    read_concern=ReadConcern(level="majority")
+).find(filter)
+
+Преимущество:
+✓ Исключает чтение несогласованных данных
+        </div>
+        
+        <h3>8.3 Raft Consensus Protocol</h3>
+        <p>
+            MongoDB использует Raft для выбора Primary узла:
+        </p>
+        <ul class="list-item">
+            <li>✓ Только узел с большинством голосов становится Primary</li>
+            <li>✓ Предотвращает Split-Brain сценарии</li>
+            <li>✓ Обеспечивает лидерство в кластере</li>
+        </ul>
+        
+        <h3>8.4 Oplog Monitoring</h3>
+        <p>Классификация lag между Primary и Secondary:</p>
+        <ul class="list-item">
+            <li><strong>&lt; 5s (EXCELLENT):</strong> Идеальная синхронизация</li>
+            <li><strong>5-10s (GOOD):</strong> Нормальная задержка</li>
+            <li><strong>10-30s (WARNING):</strong> Повышенная задержка</li>
+            <li><strong>&gt; 30s (CRITICAL):</strong> Требует восстановления</li>
+        </ul>
+        
+        <h2>9. Развертывание</h2>
+        
+        <h3>9.1 Запуск системы</h3>
+        <div class="code-block">
+# Запуск всех контейнеров
+docker-compose up -d
+
+# Проверка статуса
+docker-compose ps
+
+# Просмотр логов
+docker-compose logs -f
+        </div>
+        
+        <h3>9.2 Структура проекта</h3>
+        <div class="code-block">
+ubi136-protection/
+├── docker-compose.yml
+├── consensus_service/
+│   ├── Dockerfile
+│   ├── main.py (320 строк)
+│   └── requirements.txt
+├── replication_monitoring/ (290 строк)
+├── health_check/ (310 строк)
+├── transaction_log/ (270 строк)
+├── recovery_service/ (300 строк)
+└── Документация (README, QUICKSTART, etc)
+        </div>
+        
+        <h2>10. Выводы</h2>
+        
+        <div class="info-box">
+            <h3>✓ Разработка</h3>
+            <ul class="list-item">
+                <li>Микросервисная архитектура из 5 компонентов</li>
+                <li>~1490 строк высококачественного Python кода</li>
+                <li>Best practices современной разработки</li>
+                <li>Полная документация</li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <h3>✓ Интеграция</h3>
+            <ul class="list-item">
+                <li>Все компоненты успешно интегрированы</li>
+                <li>Единая база данных MongoDB</li>
+                <li>REST API для связи компонентов</li>
+                <li>Система работает как единое целое</li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <h3>✓ Защита от UBI.136</h3>
+            <ul class="list-item">
+                <li>WriteConcern:majority предотвращает потерю данных</li>
+                <li>ReadConcern:majority обеспечивает согласованность</li>
+                <li>Raft Consensus предотвращает Split-Brain</li>
+                <li>Oplog Monitoring обнаруживает проблемы</li>
+                <li>Automatic Recovery восстанавливает узлы</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Отчет подготовлен: Проказнов Никита Михайлович | Группа: DevOps24-1м</p>
+            <p>UBI.136 Protection System - Комплексное решение для защиты от потери данных</p>
+        </div>
+    </div>
+</body>
+</html>

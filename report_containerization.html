@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчет по контейнеризации</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #2196F3;
+        }
+        
+        .header h1 {
+            color: #1976D2;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            color: #666;
+            margin: 8px 0;
+        }
+        
+        .student-info {
+            background: #E3F2FD;
+            padding: 15px;
+            border-left: 4px solid #2196F3;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .student-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        h2 {
+            color: #1976D2;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E3F2FD;
+        }
+        
+        h3 {
+            color: #424242;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        table th {
+            background: #1976D2;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        table tr:hover {
+            background: #f0f0f0;
+        }
+        
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.5;
+        }
+        
+        .diagram {
+            background: white;
+            border: 2px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            overflow-x: auto;
+            font-size: 11px;
+            white-space: pre;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .highlight {
+            background: #FFF3E0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        
+        .info-box {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .container-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            background: #fafafa;
+        }
+        
+        .container-card h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+        
+        .port-list {
+            list-style: none;
+        }
+        
+        .port-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .port-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #2196F3;
+            font-weight: bold;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .print-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .print-button button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .print-button button:hover {
+            background: #1976D2;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="print-button">
+            <button onclick="window.print()">📄 Сохранить как PDF</button>
+        </div>
+        
+        <div class="header">
+            <h1>📦 Отчет по контейнеризации системы</h1>
+            <p><strong>UBI.136 Protection System</strong></p>
+            <p>Разработка паттерна для обеспечения безопасности при потере данных</p>
+        </div>
+        
+        <div class="student-info">
+            <p><strong>Студент:</strong> Проказнов Никита Михайлович</p>
+            <p><strong>Группа:</strong> DevOps24-1м</p>
+            <p><strong>Дата:</strong> Январь 2024</p>
+            <p><strong>Предмет:</strong> Контейнеризация приложений</p>
+        </div>
+        
+        <h2>1. Введение</h2>
+        <p>
+            Система UBI.136 Protection System представляет собой микросервисную архитектуру, полностью контейнеризованную 
+            с использованием Docker и Docker Compose. Все компоненты системы упакованы в контейнеры для обеспечения 
+            портативности, масштабируемости и простоты развертывания.
+        </p>
+        
+        <h2>2. Архитектура контейнеризации</h2>
+        
+        <h3>2.1 Структура контейнеров</h3>
+        <div class="diagram">
+┌─────────────────────────────────────┐
+│    HOST MACHINE (localhost)         │
+├─────────────────────────────────────┤
+│                                     │
+│  ┌─── DATABASE CONTAINERS (3) ──┐  │
+│  │ mongo-primary:27017          │  │
+│  │ mongo-secondary1:27018       │  │
+│  │ mongo-secondary2:27019       │  │
+│  └──────────────────────────────┘  │
+│                                     │
+│  ┌─── INITIALIZATION CONTAINER ──┐ │
+│  │ mongo-init (one-time)        │ │
+│  └──────────────────────────────┘  │
+│                                     │
+│  ┌─── MICROSERVICES (5) ────────┐  │
+│  │ consensus-service:8001       │  │
+│  │ replication-monitoring:8002  │  │
+│  │ health-check:8003            │  │
+│  │ transaction-log:8004         │  │
+│  │ recovery-service:8005        │  │
+│  └──────────────────────────────┘  │
+│                                     │
+│  ┌─── DOCKER NETWORK ────────────┐ │
+│  │ mongo-network (bridge mode)  │ │
+│  │ Internal container DNS       │ │
+│  └──────────────────────────────┘  │
+│                                     │
+│  ┌─── VOLUMES ───────────────────┐ │
+│  │ mongo-primary-data           │ │
+│  │ mongo-secondary1-data        │ │
+│  │ mongo-secondary2-data        │ │
+│  └──────────────────────────────┘  │
+│                                     │
+└─────────────────────────────────────┘
+        </div>
+        
+        <h2>3. Контейнеры базы данных</h2>
+        
+        <h3>3.1 MongoDB Primary узел</h3>
+        <div class="container-card">
+            <h4>mongo-primary</h4>
+            <p><strong>Образ:</strong> mongo:5.0</p>
+            <p><strong>Хост-порт → Контейнер-порт:</strong> 27017 → 27017</p>
+            <p><strong>Сетевой интерфейс:</strong> mongo-network (bridge)</p>
+            <p><strong>Volume:</strong> mongo-primary-data:/data/db</p>
+            <p><strong>Функция:</strong> Primary узел Replica Set, принимает все операции записи</p>
+        </div>
+        
+        <h3>3.2 MongoDB Secondary узел 1</h3>
+        <div class="container-card">
+            <h4>mongo-secondary1</h4>
+            <p><strong>Образ:</strong> mongo:5.0</p>
+            <p><strong>Хост-порт → Контейнер-порт:</strong> 27018 → 27017</p>
+            <p><strong>Volume:</strong> mongo-secondary1-data:/data/db</p>
+            <p><strong>Функция:</strong> Secondary узел для репликации данных</p>
+        </div>
+        
+        <h3>3.3 MongoDB Secondary узел 2</h3>
+        <div class="container-card">
+            <h4>mongo-secondary2</h4>
+            <p><strong>Образ:</strong> mongo:5.0</p>
+            <p><strong>Хост-порт → Контейнер-порт:</strong> 27019 → 27017</p>
+            <p><strong>Volume:</strong> mongo-secondary2-data:/data/db</p>
+            <p><strong>Функция:</strong> Secondary узел для обеспечения высокой доступности</p>
+        </div>
+        
+        <h3>3.4 Инициализация Replica Set</h3>
+        <div class="container-card">
+            <h4>mongo-init</h4>
+            <p><strong>Образ:</strong> mongo:5.0</p>
+            <p><strong>Статус перезапуска:</strong> no (выполняется один раз)</p>
+            <p><strong>Действия:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Ожидание инициализации всех узлов</li>
+                <li>Выполнение rs.initiate() на Primary</li>
+                <li>Регистрация всех 3 узлов в кластере</li>
+                <li>Установка приоритетов: Primary=2, Secondary=1, Secondary=1</li>
+            </ul>
+        </div>
+        
+        <h2>4. Микросервисы приложений</h2>
+        
+        <h3>4.1 Dockerfile для микросервисов</h3>
+        <div class="code-block">
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY main.py .
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "PORT"]
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Сервис</th>
+                        <th>Порт</th>
+                        <th>Функция</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>consensus-service</td>
+                        <td>8001</td>
+                        <td>Главный сервис управления согласованностью</td>
+                    </tr>
+                    <tr>
+                        <td>replication-monitoring</td>
+                        <td>8002</td>
+                        <td>Мониторинг репликации и oplog lag</td>
+                    </tr>
+                    <tr>
+                        <td>health-check</td>
+                        <td>8003</td>
+                        <td>Проверка здоровья узлов</td>
+                    </tr>
+                    <tr>
+                        <td>transaction-log</td>
+                        <td>8004</td>
+                        <td>Логирование операций и аудит</td>
+                    </tr>
+                    <tr>
+                        <td>recovery-service</td>
+                        <td>8005</td>
+                        <td>Автоматическое восстановление узлов</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h2>5. Портирование и открытие портов</h2>
+        
+        <h3>5.1 Отображение портов</h3>
+        <p>Система использует следующее отображение портов:</p>
+        
+        <h4>MongoDB порты:</h4>
+        <ul class="port-list">
+            <li><strong>localhost:27017</strong> → mongo-primary:27017 (Primary узел)</li>
+            <li><strong>localhost:27018</strong> → mongo-secondary1:27017 (Secondary узел 1)</li>
+            <li><strong>localhost:27019</strong> → mongo-secondary2:27017 (Secondary узел 2)</li>
+        </ul>
+        
+        <h4>Микросервисы порты:</h4>
+        <ul class="port-list">
+            <li><strong>localhost:8001</strong> → consensus-service:8001</li>
+            <li><strong>localhost:8002</strong> → replication-monitoring:8002</li>
+            <li><strong>localhost:8003</strong> → health-check:8003</li>
+            <li><strong>localhost:8004</strong> → transaction-log:8004</li>
+            <li><strong>localhost:8005</strong> → recovery-service:8005</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>ℹ️ Информация:</strong> Все порты используют TCP протокол и доступны через localhost.
+            При развертывании на удаленном сервере изменяются только хост-адреса.
+        </div>
+        
+        <h2>6. Сетевая конфигурация</h2>
+        
+        <h3>6.1 Docker Network</h3>
+        <p>
+            Все контейнеры подключены к одной сети <span class="highlight">mongo-network</span>:
+        </p>
+        <div class="code-block">
+networks:
+  mongo-network:
+    driver: bridge
+        </div>
+        
+        <h3>6.2 Сетевой взаимодействие</h3>
+        <div class="code-block">
+Из микросервисов к MongoDB:
+mongodb://mongo-primary:27017,
+         mongo-secondary1:27017,
+         mongo-secondary2:27017/?replicaSet=rs0
+
+Из хоста к сервисам:
+http://localhost:8001/endpoint
+        </div>
+        
+        <h2>7. Управление данными (Volumes)</h2>
+        
+        <h3>7.1 Именованные Volumes</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Volume</th>
+                        <th>Контейнер</th>
+                        <th>Путь</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>mongo-primary-data</td>
+                        <td>mongo-primary</td>
+                        <td>/data/db</td>
+                    </tr>
+                    <tr>
+                        <td>mongo-secondary1-data</td>
+                        <td>mongo-secondary1</td>
+                        <td>/data/db</td>
+                    </tr>
+                    <tr>
+                        <td>mongo-secondary2-data</td>
+                        <td>mongo-secondary2</td>
+                        <td>/data/db</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h3>7.2 Преимущества volumes</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>Персистентность:</strong> Данные сохраняются при перезапуске</li>
+            <li><strong>Независимость:</strong> Удаление контейнера не удаляет данные</li>
+            <li><strong>Производительность:</strong> Оптимально для БД</li>
+            <li><strong>Управляемость:</strong> Docker управляет жизненным циклом</li>
+        </ul>
+        
+        <h2>8. Docker Compose конфигурация</h2>
+        
+        <h3>8.1 Зависимости контейнеров</h3>
+        <div class="code-block">
+mongo-secondary1 → depends_on: mongo-primary
+mongo-secondary2 → depends_on: mongo-primary
+mongo-init      → depends_on: все MongoDB узлы
+Все микросервисы → depends_on: mongo-init
+        </div>
+        
+        <h3>8.2 Порядок запуска</h3>
+        <div class="info-box">
+            <ol style="margin-left: 20px;">
+                <li>mongo-primary запускается первым</li>
+                <li>mongo-secondary1 и mongo-secondary2 параллельно</li>
+                <li>mongo-init ждет инициализации MongoDB узлов</li>
+                <li>Все микросервисы запускаются после Replica Set</li>
+            </ol>
+        </div>
+        
+        <h2>9. Healthcheck механизмы</h2>
+        
+        <h3>9.1 MongoDB Healthcheck</h3>
+        <div class="code-block">
+healthcheck:
+  test: echo 'db.runCommand("ping").ok' | mongo --quiet
+  interval: 10s      # проверка каждые 10 секунд
+  timeout: 5s        # ждать 5 секунд ответ
+  retries: 5         # 5 неудачных попыток = unhealthy
+        </div>
+        
+        <h2>10. Переменные окружения</h2>
+        
+        <h3>10.1 MONGO_URI</h3>
+        <p>Все микросервисы получают переменную для подключения к MongoDB:</p>
+        <div class="code-block">
+environment:
+  - MONGO_URI=mongodb://mongo-primary:27017,
+              mongo-secondary1:27017,
+              mongo-secondary2:27017/
+              ?replicaSet=rs0
+        </div>
+        
+        <h2>11. Развертывание и управление</h2>
+        
+        <h3>11.1 Запуск системы</h3>
+        <div class="code-block">
+# Запуск всех контейнеров в фоне
+docker-compose up -d
+
+# Просмотр статуса
+docker-compose ps
+
+# Просмотр логов
+docker-compose logs -f
+
+# Конкретный контейнер
+docker-compose logs mongo-primary
+        </div>
+        
+        <h3>11.2 Остановка и очистка</h3>
+        <div class="code-block">
+# Остановка
+docker-compose stop
+
+# Удаление (данные сохраняются)
+docker-compose down
+
+# Полная очистка (удаление данных)
+docker-compose down -v
+
+# Перезапуск сервиса
+docker-compose restart consensus-service
+        </div>
+        
+        <h2>12. Мониторинг контейнеров</h2>
+        
+        <h3>12.1 Просмотр ресурсов</h3>
+        <div class="code-block">
+# Использование ресурсов
+docker stats
+
+# Процессы в контейнере
+docker top mongo-primary
+
+# Инспекция контейнера
+docker inspect mongo-primary
+        </div>
+        
+        <h3>12.2 Логирование</h3>
+        <div class="code-block">
+# Последние 100 строк логов
+docker logs --tail 100 consensus-service
+
+# Следить за логами в реальном времени
+docker logs -f replication-monitoring
+        </div>
+        
+        <h2>13. Выводы</h2>
+        
+        <div class="info-box">
+            <ul style="margin-left: 20px;">
+                <li>✅ Система полностью контейнеризована (8 контейнеров)</li>
+                <li>✅ Все компоненты изолированы в отдельных контейнерах</li>
+                <li>✅ Используется единая Docker сеть для взаимодействия</li>
+                <li>✅ Данные персистируются через именованные volumes</li>
+                <li>✅ Автоматическое управление порядком запуска</li>
+                <li>✅ Простое развертывание: docker-compose up -d</li>
+                <li>✅ Полный мониторинг и управление контейнерами</li>
+                <li>✅ Готовность к продакшену с best practices</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Отчет подготовлен: Проказнов Никита Михайлович | Группа: DevOps24-1м</p>
+            <p>UBI.136 Protection System - Система защиты от потери данных при несогласованности узлов</p>
+        </div>
+    </div>
+</body>
+</html>
