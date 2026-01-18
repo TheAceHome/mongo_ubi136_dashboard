@@ -642,7 +642,6 @@ curl -X POST http://localhost:8005/recovery/auto-heal
 
 - **Issues:** [GitHub Issues](https://github.com/TheAceHome/mongo_ubi136_dashboard/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/TheAceHome/mongo_ubi136_dashboard/discussions)
-- **Email:** your.email@example.com
 
 ## 🎓 Образовательная цель
 
