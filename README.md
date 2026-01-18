@@ -58,7 +58,7 @@
 
 ```bash
 # 1. Клонировать проект
-git clone https://github.com/yourusername/ubi136-protection.git
+git clone https://github.com/TheAceHome/mongo_ubi136_dashboard.git
 cd ubi136-protection
 
 # 2. Запустить систему
@@ -413,7 +413,7 @@ docker-compose down
 1. **Подготовить сервер:**
    ```bash
    ssh user@server
-   git clone https://github.com/yourusername/ubi136-protection.git
+   git clone https://github.com/TheAceHome/mongo_ubi136_dashboard.git
    cd ubi136-protection
    ```
 
@@ -577,7 +577,7 @@ curl -X POST http://localhost:8005/recovery/auto-heal
 
 1. **Форк проекта**
    ```bash
-   git clone https://github.com/yourusername/ubi136-protection.git
+   git clone https://github.com/TheAceHome/mongo_ubi136_dashboard.git
    ```
 
 2. **Создать ветку для feature**
