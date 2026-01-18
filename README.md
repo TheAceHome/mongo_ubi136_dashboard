@@ -40,7 +40,6 @@
 | Микросервисов | 5 |
 | Контейнеров | 8 |
 | API Endpoints | ~35 |
-| Строк кода | ~1,490 |
 | Язык | Python 3.11 |
 | Framework | FastAPI |
 | БД | MongoDB 5.0 |
@@ -52,7 +51,7 @@
 
 - Docker Engine 20.10+
 - Docker Compose 2.0+
-- Минимум 4 GB RAM
+- Минимум 9 GB RAM
 - Свободные порты: 27017-27019, 8001-8005
 
 ### Установка (3 шага)
@@ -630,10 +629,8 @@ curl -X POST http://localhost:8005/recovery/auto-heal
 
 ## 👤 Автор
 
-**Проказнов Никита Михайлович**
-- Группа: DevOps24-1м
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+**AceHome**
+- GitHub: [@TheAceHome](https://github.com/TheAceHome)
 
 ## 🙏 Благодарности
 
@@ -643,8 +640,8 @@ curl -X POST http://localhost:8005/recovery/auto-heal
 
 ## 📞 Контакты
 
-- **Issues:** [GitHub Issues](https://github.com/yourusername/ubi136-protection/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/yourusername/ubi136-protection/discussions)
+- **Issues:** [GitHub Issues](https://github.com/TheAceHome/mongo_ubi136_dashboard/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/TheAceHome/mongo_ubi136_dashboard/discussions)
 - **Email:** your.email@example.com
 
 ## 🎓 Образовательная цель
@@ -661,7 +658,7 @@ curl -X POST http://localhost:8005/recovery/auto-heal
 
 **Сделано с ❤️ для защиты от потери данных**
 
-[![Stars](https://img.shields.io/github/stars/yourusername/ubi136-protection?style=flat-square)](https://github.com/yourusername/ubi136-protection)
-[![Forks](https://img.shields.io/github/forks/yourusername/ubi136-protection?style=flat-square)](https://github.com/yourusername/ubi136-protection/fork)
-[![Issues](https://img.shields.io/github/issues/yourusername/ubi136-protection?style=flat-square)](https://github.com/yourusername/ubi136-protection/issues)
-[![License](https://img.shields.io/github/license/yourusername/ubi136-protection?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/TheAceHome/mongo_ubi136_dashboard?style=flat-square)](https://github.com/TheAceHome/mongo_ubi136_dashboard)
+[![Forks](https://img.shields.io/github/forks/TheAceHome/mongo_ubi136_dashboard?style=flat-square)](https://github.com/TheAceHome/mongo_ubi136_dashboard/fork)
+[![Issues](https://img.shields.io/github/issues/TheAceHome/mongo_ubi136_dashboard?style=flat-square)](https://github.com/TheAceHome/mongo_ubi136_dashboard/issues)
+[![License](https://img.shields.io/github/license/TheAceHome/mongo_ubi136_dashboard?style=flat-square)](LICENSE)
